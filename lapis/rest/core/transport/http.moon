@@ -1,4 +1,5 @@
 LapisRestCoreTransportAbstract = require "lapis.rest.core.transport.abstract_transport"
+LapisRestCoreUrl = require "lapis.rest.core.url"
 
 http = require "resty.http"
 ltn12 = require("ltn12")
@@ -32,19 +33,24 @@ class LapisRestCoreTransportHttp extends LapisRestCoreTransportAbstract
     if url
       baseUri = url
     else
-      baseUri = @_scheme .. '://' .. connection\getHost() .. ':' .. connection\getPort() .. '/' .. connection\getPath!
+      baseUri = LapisRestCoreUrl!
+      baseUri\setScheme @_scheme
+      baseUri\setHost connection\getHost!
+      baseUri\setPort connection\getPort!
+      baseUri\addQueryParams request\getQuery!
+      connectionPath = connection\getPath!
+      requestPath = request\getPath!
 
-    requestPath = request\getPath!
-    if requestPath
-      baseUri = "#{baseUri}#{request\getPath!}"
+      if requestPath
+        connectionPath = "#{connectionPath}/#{requestPath}"
+
+      baseUri\setPath connectionPath
+      baseUri = baseUri\getUrl!
 
     headers = @buildHeaders(request)
-    query = request\getQuery!
-
     httpc = http.new!
     method = request\getMethod!
     args = :method, :headers
-
     res, err = httpc\request_uri(baseUri, args)
     unless res
       ngx.say "failed to request: ", err

@@ -10,6 +10,13 @@ class extends lapis.Application
   "/": =>
     json: { "Hello, i am a stupid test" }
 
+  "/connection/create": =>
+    connection = LapisRestCoreConnection host: "http://www.google.com", port: 80, path: "/", config: { a: "b" }
+    expected = config: { a: "b" }, enabled: true, host: "http://www.google.com", port: 80, path: "/"
+    assert.same expected, connection\getParams!
+    json: { 200 }
+
+
   "/jsontest": =>
     connection = LapisRestCoreConnection host: "ip.jsontest.com"
     -- @param path

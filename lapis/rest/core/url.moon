@@ -36,6 +36,10 @@ class LapisRestCoreUrl
     
     baseUri = baseUri .. @getPath! 
     query = url.buildQuery @getQueryParams!
-    return baseUri .. ( query and "?#{query}" )
+
+    if query != ""
+      baseUri = "#{baseUri}?#{query}"
+
+    return baseUri
 
 LapisRestCoreUrl

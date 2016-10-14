@@ -4,8 +4,7 @@ runner = NginxRunner base_path: "spec/server/"
 import SpecServer from require "lapis.spec.server"
 server = SpecServer runner
 
-LapisRestCoreConnection = require "lapis.rest.core.connection"
-LapisRestCoreRequest = require "lapis.rest.core.request"
+LapisRestCoreUrl = require "lapis.rest.core.url"
 
 describe "Lapis Rest Core", ->
   setup ->
@@ -15,15 +14,23 @@ describe "Lapis Rest Core", ->
     server\close_test_server!
 
   it "Should check for stupid", ->
-    status, res, z = server\request "",  port: 9999, method: "GET"
-    assert.same {
-      "Hello, i am a stupid test"
-    }, res
+    status, res = server\request "",  port: 9999, method: "GET"
+    assert.same '["Hello, i am a stupid test"]', res
 
+  it "Should create a url", ->
+    url = LapisRestCoreUrl!
+    url\setPort 9999
+    url\setPath "/home/index"
+    url\addQueryParams my_param: "my_value"
+    url\addQueryParam "fruit", "apple"
+    assert.same url\getUrl!, "http://localhost:9999/home/index?fruit=apple&my_param=my_value"
+
+  [[
   it "Should create a connection", ->
     connection = LapisRestCoreConnection host: "http://www.google.com", port: 80, path: "/", config: { a: "b" }
     expected = config: { a: "b" }, enabled: true, host: "http://www.google.com", port: 80, path: "/"
     assert.same expected, connection\getParams!
+  ]]
 
   request = (path, opts) ->
     it "Should request `#{path}`", ->
@@ -31,3 +38,6 @@ describe "Lapis Rest Core", ->
       assert.same 200, status
 
   request "/jsontest",  port: 9999, method: "GET"
+  request "/connection/create",  port: 9999, method: "GET"
+
+  
