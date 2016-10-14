@@ -24,6 +24,7 @@ build = {
 		["lapis.rest.core.param"] = "lapis/rest/core/param.lua",
 		["lapis.rest.core.request"] = "lapis/rest/core/request.lua",
 		["lapis.rest.core.transport.abstract_transport"] = "lapis/rest/core/transport/abstract_transport.lua",
+		["lapis.rest.core.url"] = "lapis/rest/core/url.lua",
 		["lapis.rest.core.transport.factory"] = "lapis/rest/core/transport/factory.lua",
 		["lapis.rest.core.transport.http"] = "lapis/rest/core/transport/http.lua"
   	}
