@@ -1,7 +1,7 @@
 LapisRestParam = require "lapis.rest.core.param"
 LapisRestCoreTransportFactory = require "lapis.rest.core.transport.factory"
 
-CONNECTION = DEFAULT_PORT: 8080, DEFAULT_HOST: "localhost", DEFAULT_TRANSPORT: "Http"
+CONNECTION = DEFAULT_PORT: 80, DEFAULT_HOST: "localhost", DEFAULT_TRANSPORT: "Http"
 
 class LapisRestCoreConnection extends LapisRestParam
   name: "connection"

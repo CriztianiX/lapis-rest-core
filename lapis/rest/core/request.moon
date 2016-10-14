@@ -12,7 +12,6 @@ class LapisRestCoreRequest extends LapisRestCoreParam
   new: (path, method = LapisRestCoreRequest.GET, data = {}, query = {}, connection = false) =>
     super!
     @_connection = false
-
     @setPath(path)
     @setMethod(method)
     @setData(data)
@@ -44,9 +43,7 @@ class LapisRestCoreRequest extends LapisRestCoreParam
   setQuery: ( query = {}) =>
     @setParam('query', query)
 
-  setConnection: (connection) =>
-    @_connection = connection
-    return @
+  setConnection: (connection) => @_connection = connection
 
   getConnection: => @_connection
 

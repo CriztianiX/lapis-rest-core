@@ -34,7 +34,10 @@ class LapisRestCoreTransportHttp extends LapisRestCoreTransportAbstract
     else
       baseUri = @_scheme .. '://' .. connection\getHost() .. ':' .. connection\getPort() .. '/' .. connection\getPath!
 
-    baseUri = "#{baseUri}#{request\getPath!}"
+    requestPath = request\getPath!
+    if requestPath
+      baseUri = "#{baseUri}#{request\getPath!}"
+
     headers = @buildHeaders(request)
     query = request\getQuery!
 
@@ -50,6 +53,6 @@ class LapisRestCoreTransportHttp extends LapisRestCoreTransportAbstract
     unless @json
       return res.body, res.status
 
-    return res
+    return cjson.decode(res.body), res.status
 
 LapisRestCoreTransportHttp

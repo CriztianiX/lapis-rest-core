@@ -1,4 +1,5 @@
 lapis = require "lapis"
+assert = require "luassert"
 LapisRestCoreConnection = require "lapis.rest.core.connection"
 LapisRestCoreRequest = require "lapis.rest.core.request"
 
@@ -8,6 +9,20 @@ class extends lapis.Application
 
   "/": =>
     json: { "Hello, i am a stupid test" }
+
+  "/jsontest": =>
+    connection = LapisRestCoreConnection host: "ip.jsontest.com"
+    -- @param path
+    -- @param method
+    -- @param data
+    -- @param query
+    -- @param connection
+    request = LapisRestCoreRequest nil, nil, nil, nil, connection
+    request\setContentType "application/json"
+    body, status = request\send!
+
+    assert.same 200, status
+    json: body
 
   "/google": =>
     connection = LapisRestCoreConnection host: "www.google.com.ar", port: 80, path: "/"

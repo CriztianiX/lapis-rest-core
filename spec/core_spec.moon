@@ -25,7 +25,9 @@ describe "Lapis Rest Core", ->
     expected = config: { a: "b" }, enabled: true, host: "http://www.google.com", port: 80, path: "/"
     assert.same expected, connection\getParams!
 
+  request = (path, opts) ->
+    it "Should request `#{path}`", ->
+      status, res = server\request path, opts
+      assert.same 200, status
 
-  it "Should request to google", ->
-    status, res = server\request "/google",  port: 9999, method: "GET"
-    assert.same 200, status
+  request "/jsontest",  port: 9999, method: "GET"
